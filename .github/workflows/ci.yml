@@ -2,7 +2,7 @@ name: CI - SGAS MVP
 
 on:
   push:
-    branches: [main]
+    branches: [main, feature/revisao-codigo-pr]
   pull_request:
     branches: [main]
 
@@ -11,19 +11,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Copiar código do repositório
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Configurar Python
-        uses: actions/action-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.10"
 
-      - name: Instalar dependências
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install pytest
 
-      - name: Executar testes automatizados (Pytest)
+      - name: Run pytest
         run: |
           pytest
