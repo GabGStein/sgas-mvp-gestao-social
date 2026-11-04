@@ -1,0 +1,44 @@
+{% extends "base.html" %} {% block content %}
+<div
+  class="bg-white p-6 rounded-lg shadow border border-slate-200 max-w-xl mx-auto text-center space-y-6"
+>
+  <div
+    class="bg-emerald-50 border-2 border-emerald-500 text-emerald-900 p-4 rounded-lg flex items-center justify-center gap-3"
+  >
+    <span class="text-3xl" aria-hidden="true">✅</span>
+    <div class="text-left">
+      <h3 class="font-bold text-lg">Sucesso!</h3>
+      <p class="text-sm">Entrega registrada e estoque atualizado com êxito.</p>
+    </div>
+  </div>
+  <div
+    class="bg-slate-50 p-4 rounded-lg text-left space-y-2 border border-slate-200"
+  >
+    <h4 class="font-bold text-slate-800 border-b pb-2">
+      Detalhes da Transação:
+    </h4>
+    <p><strong>Família:</strong> {{ doacao.familia.nome }}</p>
+    <p><strong>Item Entregue:</strong> {{ doacao.item.nome }}</p>
+    <p>
+      <strong>Quantidade:</strong> {{ doacao.quantidade_entregue }} unidades
+    </p>
+    <p>
+      <strong>Novo Saldo em Estoque:</strong>
+      <span class="text-emerald-700 font-bold"
+        >{{ doacao.item.quantidade }} unidades</span
+      >
+    </p>
+    <p class="text-xs text-slate-500 pt-2">
+      Registrado em: {{ doacao.data_entrega.strftime('%d/%m/%Y %H:%M') }}
+    </p>
+  </div>
+  <div>
+    <a
+      href="{{ url_for('registrar') }}"
+      class="inline-block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow focus:ring-4 focus:ring-blue-300"
+    >
+      🔄 Nova Entrega
+    </a>
+  </div>
+</div>
+{% endblock %}
