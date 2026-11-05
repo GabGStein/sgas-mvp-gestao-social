@@ -1,6 +1,7 @@
-import os
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+import osgit add main.py
+git commit -m "fix(main): import render_template from flask"
+git push origin main
+from flask import Flask, render_template, request, redirect, url_for # Certifique-se de incluir render_template aqui
 
 # 1. PRIMEIRO: Inicialize a aplicação Flask
 app = Flask(__name__)
