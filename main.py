@@ -1,19 +1,25 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for
-from flask_sqlalchemy import SQLAlchemy  # <--- Certifique-se de que esta linha existe!
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__)
+# Define se estamos na Vercel
+is_vercel = bool(os.environ.get('VERCEL') or os.environ.get('AWS_LAMBDA_FUNCTION_NAME'))
 
-# Configuração do caminho do banco (SQLite na Vercel usa /tmp)
-if os.environ.get('VERCEL') or os.environ.get('AWS_LAMBDA_FUNCTION_NAME'):
+# Se estiver na Vercel, o diretório de instâncias e o banco vão para /tmp
+if is_vercel:
+    instance_path = '/tmp/instance'
     db_path = '/tmp/sgas.db'
+    os.makedirs(instance_path, exist_ok=True)
 else:
+    instance_path = None
     db_path = 'sgas.db'
+
+# Passa o instance_path correto para o Flask
+app = Flask(__name__, instance_path=instance_path)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Inicialização do banco
 db = SQLAlchemy(app)
 
 # Restante do seu código (Modelos, Rotas, etc.)...
