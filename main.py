@@ -1,6 +1,16 @@
 from flask import Flask, flash, redirect, render_template, request, url_for
 from flask_sqlalchemy import SQLAlchemy
 
+import os
+
+# Define o caminho do banco: se estiver na Vercel, usa /tmp, senão usa o diretório local
+if os.environ.get('VERCEL') or os.environ.get('AWS_LAMBDA_FUNCTION_NAME'):
+    db_path = '/tmp/sgas.db'
+else:
+    db_path = 'sgas.db'
+
+app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'chave-secreta-sgas-mvp'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sgas.db'
