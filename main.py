@@ -1,12 +1,10 @@
-import osgit add main.py
-git commit -m "fix(main): import render_template from flask"
-git push origin main
-from flask import Flask, render_template, request, redirect, url_for # Certifique-se de incluir render_template aqui
+import os
+from flask import Flask, render_template, request, redirect, url_for
+from flask_sqlalchemy import SQLAlchemy  # <--- Certifique-se de que esta linha existe!
 
-# 1. PRIMEIRO: Inicialize a aplicação Flask
 app = Flask(__name__)
 
-# 2. SEGUNDO: Configure o caminho do banco (usando /tmp na Vercel)
+# Configuração do caminho do banco (SQLite na Vercel usa /tmp)
 if os.environ.get('VERCEL') or os.environ.get('AWS_LAMBDA_FUNCTION_NAME'):
     db_path = '/tmp/sgas.db'
 else:
@@ -15,7 +13,7 @@ else:
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# 3. TERCEIRO: Inicialize o SQLAlchemy e defina suas rotas
+# Inicialização do banco
 db = SQLAlchemy(app)
 
 # Restante do seu código (Modelos, Rotas, etc.)...
